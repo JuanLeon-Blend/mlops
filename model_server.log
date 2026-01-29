@@ -1,0 +1,31 @@
+2026/01/29 13:08:11 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.schemas
+2026/01/29 13:08:11 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.tables
+2026/01/29 13:08:11 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.types
+2026/01/29 13:08:11 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.constraints
+2026/01/29 13:08:11 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.defaults
+2026/01/29 13:08:11 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.comments
+2026/01/29 13:08:11 INFO alembic.runtime.migration: Context impl SQLiteImpl.
+2026/01/29 13:08:11 INFO alembic.runtime.migration: Will assume non-transactional DDL.
+❌ Error cargando modelo: No se encontraron runs
+🚀 FASE 5: Model Serving
+==================================================
+🌐 Iniciando servidor Flask...
+📡 Endpoints disponibles:
+  - GET  /health          - Health check
+  - POST /invocations     - Predicciones (formato MLflow)
+  - POST /predict_names   - Predicciones con nombres
+  - GET  /               - Información del servicio
+
+🧪 Test con curl:
+curl -X POST http://localhost:1235/invocations \
+  -H 'Content-Type: application/json' \
+  -d '{"instances": [[5.1, 3.5, 1.4, 0.2]]}'
+
+ * Serving Flask app 'serve_model'
+ * Debug mode: off
+[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:1235
+ * Running on http://192.168.30.179:1235
+[33mPress CTRL+C to quit[0m
+127.0.0.1 - - [29/Jan/2026 13:08:20] "[35m[1mGET /health HTTP/1.1[0m" 500 -

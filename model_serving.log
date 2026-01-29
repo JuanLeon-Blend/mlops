@@ -1,0 +1,69 @@
+2026/01/29 13:04:35 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.schemas
+2026/01/29 13:04:35 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.tables
+2026/01/29 13:04:35 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.types
+2026/01/29 13:04:35 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.constraints
+2026/01/29 13:04:35 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.defaults
+2026/01/29 13:04:35 INFO alembic.runtime.plugins: setup plugin alembic.autogenerate.comments
+2026/01/29 13:04:35 INFO alembic.runtime.migration: Context impl SQLiteImpl.
+2026/01/29 13:04:35 INFO alembic.runtime.migration: Will assume non-transactional DDL.
+Traceback (most recent call last):
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/bin/mlflow", line 8, in <module>
+    sys.exit(cli())
+             ~~~^^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/click/core.py", line 1485, in __call__
+    return self.main(*args, **kwargs)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/click/core.py", line 1406, in main
+    rv = self.invoke(ctx)
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/click/core.py", line 1873, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/click/core.py", line 1873, in invoke
+    return _process_result(sub_ctx.command.invoke(sub_ctx))
+                           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/click/core.py", line 1269, in invoke
+    return ctx.invoke(self.callback, **ctx.params)
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/click/core.py", line 824, in invoke
+    return callback(*args, **kwargs)
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/models/cli.py", line 102, in serve
+    return get_flavor_backend(
+           ~~~~~~~~~~~~~~~~~~^
+        model_uri, env_manager=env_manager, workers=workers, install_mlflow=install_mlflow
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).serve(
+    ^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/models/flavor_backend_registry.py", line 44, in get_flavor_backend
+    artifact_repo = get_artifact_repository(root_uri)
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/store/artifact/artifact_repository_registry.py", line 147, in get_artifact_repository
+    return _artifact_repository_registry.get_artifact_repository(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        artifact_uri, tracking_uri, registry_uri
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/store/artifact/artifact_repository_registry.py", line 83, in get_artifact_repository
+    return repository(artifact_uri, tracking_uri=tracking_uri, registry_uri=registry_uri)
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/store/artifact/models_artifact_repo.py", line 83, in __init__
+    ) = ModelsArtifactRepository._get_model_uri_infos(artifact_uri)
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/store/artifact/models_artifact_repo.py", line 144, in _get_model_uri_infos
+    download_uri = client.get_model_version_download_uri(name, version)
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/tracking/client.py", line 5011, in get_model_version_download_uri
+    self._raise_if_prompt(name)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/tracking/client.py", line 5619, in _raise_if_prompt
+    rm = self.get_registered_model(name)
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/tracking/client.py", line 4186, in get_registered_model
+    rm = self._get_registry_client().get_registered_model(name)
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/tracking/_model_registry/client.py", line 181, in get_registered_model
+    return self.store.get_registered_model(name)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/store/model_registry/sqlalchemy_store.py", line 651, in get_registered_model
+    return self._get_registered_model(session, name, eager=True).to_mlflow_entity()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/juan_leon/Escritorio/Proyectos/Hands-On/venv/lib/python3.13/site-packages/mlflow/store/model_registry/sqlalchemy_store.py", line 249, in _get_registered_model
+    raise MlflowException(
+        f"Registered Model with name={name} not found", RESOURCE_DOES_NOT_EXIST
+    )
+mlflow.exceptions.MlflowException: Registered Model with name=iris_logistic_regression not found
