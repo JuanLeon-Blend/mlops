@@ -1,5 +1,94 @@
 # 📚 Explicación Completa del Workshop MLflow + Docker
 
+## 🚀 Guía de Ejecución Rápida
+
+### Comandos para Ejecutar el Proyecto Completo
+
+```bash
+# 1. Activar entorno virtual
+source venv/bin/activate
+
+# 2. Ejecutar exploración de datos
+python src/explore_data.py
+
+# 3. Construir imagen Docker
+docker build -f docker/Dockerfile -t mlflow-train .
+
+# 4. Entrenar modelo con MLflow
+docker run -v $(pwd)/mlruns:/app/mlruns -v $(pwd)/data:/app/data mlflow-train
+
+# 5. Iniciar MLflow UI (en background)
+nohup mlflow ui --host 0.0.0.0 --port 5000 > mlflow_ui.log 2>&1 &
+
+# 6. Iniciar modelo serving (en background)
+nohup ./venv/bin/python src/simple_serve.py > serving.log 2>&1 &
+```
+
+### 🧪 Comandos para Probar los Endpoints
+
+```bash
+# Health check del modelo
+curl http://localhost:1235/health
+
+# Predicción simple (formato MLflow)
+curl -X POST http://localhost:1235/invocations \
+  -H 'Content-Type: application/json' \
+  -d '{"instances": [[5.1, 3.5, 1.4, 0.2]]}'
+
+# Predicción con nombres de clases
+curl -X POST http://localhost:1235/predict_names \
+  -H 'Content-Type: application/json' \
+  -d '{"instances": [[5.1, 3.5, 1.4, 0.2], [7.0, 3.2, 4.7, 1.4], [6.3, 3.3, 6.0, 2.5]]}'
+
+# Test automatizado completo
+./venv/bin/python src/predict_test.py
+```
+
+### 🌐 URLs Activas Después de la Ejecución
+
+- **MLflow UI**: http://localhost:5000 (Experimentos y Model Registry)
+- **Model API**: http://localhost:1235 (Serving REST API)
+- **Health Check**: http://localhost:1235/health (Estado del modelo)
+- **API Info**: http://localhost:1235/ (Información del servicio)
+
+### 📊 Resultados Esperados
+
+```json
+// Health Check Response
+{
+    "accuracy": "1.0000",
+    "status": "healthy"
+}
+
+// Prediction Response
+{
+    "predictions": [0, 1, 2]
+}
+
+// Prediction with Names Response
+{
+    "prediction_names": ["setosa", "versicolor", "virginica"],
+    "predictions": [0, 1, 2]
+}
+```
+
+### ✅ Verificación de que Todo Funciona
+
+```bash
+# Verificar MLflow UI
+curl -s http://localhost:5000 > /dev/null && echo "✅ MLflow UI OK" || echo "❌ MLflow UI Error"
+
+# Verificar Model API
+curl -s http://localhost:1235/health > /dev/null && echo "✅ Model API OK" || echo "❌ Model API Error"
+
+# Test completo de predicciones
+curl -s -X POST http://localhost:1235/invocations \
+  -H 'Content-Type: application/json' \
+  -d '{"instances": [[5.1, 3.5, 1.4, 0.2]]}' | grep -q "predictions" && echo "✅ Predictions OK" || echo "❌ Predictions Error"
+```
+
+---
+
 ## 🎯 Objetivo del Workshop
 
 Este workshop implementó el **ciclo completo de vida de un modelo de Machine Learning** usando MLflow y Docker, desde la exploración inicial de datos hasta el despliegue como servicio REST. El enfoque fue **práctico y conceptual**, priorizando el entendimiento del flujo sobre la complejidad del modelo.

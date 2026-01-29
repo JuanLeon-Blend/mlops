@@ -10,7 +10,7 @@ import json
 import numpy as np
 import pandas as pd
 
-def test_model_serving(model_url="http://localhost:1234/invocations"):
+def test_model_serving(model_url="http://localhost:1235/invocations"):
     """
     Test del modelo servido via MLflow
     
